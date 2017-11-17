@@ -7,11 +7,16 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var jobs = require('./routes/jobs');
 
 var db = require('./routes/db');
 
 var app = express();
+
+// import models
 var Job = require('./models/Job');
+var Location = require('./models/Location');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -27,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/db', db);
+app.use('/jobs', jobs);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -48,6 +54,19 @@ app.use(function(err, req, res, next) {
 
 
 // build tables
-Job.sync({force: false});
+Job.sync({force: false})
+.then(() => {	
+	Location.sync({force: false})
+	.then(() => {
+		Location.belongsTo(Job);
+		Job.hasMany(Location);
+	});;
+});
+
+
+// Job.hasMany(Location);
+// Location.belongsTo(Job);
+
+console.log(Job);
 
 module.exports = app;

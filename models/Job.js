@@ -1,5 +1,6 @@
 var db = require('../Database');
 var Sequelize = require('Sequelize');
+var Location = require('./Location');
 
 const Job = db.define('job', {
   name: {

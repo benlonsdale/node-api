@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+var app = require('../radish');
 var debug = require('debug')('node-api:server');
 var http = require('http');
 
@@ -13,8 +13,8 @@ var http = require('http');
  */
 
 var port = normalizePort(process.env.PORT || '3000');
-//app.set('port', port);
-app.set('port', 8081);
+app.set('port', port);
+//app.set('port', 8081);
 
 /**
  * Create HTTP server.
